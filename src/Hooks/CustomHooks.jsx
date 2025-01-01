@@ -15,7 +15,7 @@ const useEmployees = () => {
         setLoading(true);
         setError(null);
         try {
-            const response = await axios.get("http://localhost:5000/Dashboard");
+            const response = await axios.get("http://localhost:5000/Employees");
             setEmployees(response.data);
         } catch (err) {
             setError(err.response?.data?.message || "Failed to fetch employees");
@@ -29,7 +29,7 @@ const useEmployees = () => {
         setLoading(true);
         setError(null);
         try {
-            const response = await axios.post("http://localhost:5000/Dashboard", employeeData);
+            const response = await axios.post("http://localhost:5000/Employees", employeeData);
             setEmployees((prev) => [...prev, response.data["Added employess"]]);
         } catch (err) {
             setError(err.response?.data?.message || "Failed to create employee");
@@ -43,7 +43,7 @@ const useEmployees = () => {
         setLoading(true);
         setError(null);
         try {
-            const response = await axios.put(`http://localhost:5000/Dashboard/${id}`, updatedData);
+            const response = await axios.put(`http://localhost:5000/Employees/${id}`, updatedData);
             setEmployees((prev) =>
                 prev.map((emp) => (emp._id === id ? response.data : emp))
             );
@@ -57,7 +57,7 @@ const useEmployees = () => {
       setLoading(true);
       setError(null);
       try {
-          await axios.delete(`http://localhost:5000/Dashboard/${id}`);
+          await axios.delete(`http://localhost:5000/Employees/${id}`);
           setEmployees((prev) => prev.filter((emp) => emp._id !== id));
       } catch (err) {
           setError(err.response?.data?.message || "Failed to delete employee");

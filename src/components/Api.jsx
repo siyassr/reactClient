@@ -65,18 +65,21 @@ apiClient.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+const removeCookie = (name) => {
+  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+};
 apiClient.logout = async () => {
   try {
-    // Make a logout request
+  
     await apiClient.post("/logout");
     
-    // Clear client-side data
+ 
     localStorage.removeItem("userData");
-    document.cookie = "accesstoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    document.cookie = "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    
-    // Redirect to home or login page
-    window.location.href = "/";
+    removeCookie("accesstoken");
+    removeCookie("refreshToken"); 
+  
+    window.location.href = "/"; 
   } catch (error) {
     console.error("Logout failed:", error);
   }

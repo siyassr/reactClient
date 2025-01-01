@@ -4,6 +4,7 @@ import Login from '../components/Login';
 import ProtectedRoute from './ProtectRoute';
 import Dashboard from "../components/Dashboard" 
 import UserProfile from '../components/UserProfile';
+import Myprofile from '../components/Myprofile';
 
 
 function OutputRoutes() {
@@ -30,7 +31,7 @@ function OutputRoutes() {
           element={<Login handleLoginSuccess={handleLoginSuccess} />}
         />
         <Route
-          path="/Dashboard"
+          path="/Employees"
           element={
             <ProtectedRoute isAuthenticated={isAuthenticated}>
               <Dashboard />
@@ -42,6 +43,14 @@ function OutputRoutes() {
           element={
             <ProtectedRoute isAuthenticated={isAuthenticated}>
               <UserProfile />
+            </ProtectedRoute>
+          }
+        />
+         <Route
+          path="/Myprofile"
+          element={
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
+              <Myprofile />
             </ProtectedRoute>
           }
         />

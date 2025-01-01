@@ -32,9 +32,19 @@ function Table({currentemployee,itemsPerPage,currentPage ,employees, onEdit,onDe
               currentemployee.map((employee, index) => (
                 <tr key={employee._id}>
                   <td>{ index + 1}</td>
-                  <td>
-                    {employee.firstName} {employee.lastName}
-                  </td>
+                  <td className="" >
+                    <div className="flex items-center">
+                    <img
+    src={employee.avatar} 
+    alt={`${employee.firstName} ${employee.lastName}`}
+    // className="w-8 h-8 rounded-full" 
+  />
+  <span>
+    {employee.firstName} {employee.lastName}
+  </span>
+                    </div>
+ 
+</td>
                   <td>{employee.email}</td>
                   <td>{employee.phone}</td>
                   <td>{employee.gender}</td>

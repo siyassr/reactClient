@@ -10,7 +10,8 @@ export const EmployeeProvider = ({ children }) => {
   //  const navigate = useNavigate();
 
   const [open, setOpen] = useState(false); 
-  const [deleteOpen, setDeleteOpen] = useState(false); 
+  const [deleteOpen, setDeleteOpen] = useState(false);
+
   const [deleteEmployeeId, setDeleteEmployeeId] = useState(null);
   const [formData, setFormData] = useState({
     salutation: "",
@@ -28,8 +29,10 @@ export const EmployeeProvider = ({ children }) => {
     state: "",
     city: "",
     pincode: "",
+    avatar:"",
   });
 
+  const [uploadedImage, setUploadedImage] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -136,6 +139,7 @@ export const EmployeeProvider = ({ children }) => {
       state: "",
       city: "",
       pincode: "",
+      avatar:"",
     });
     setOpen(true); 
   };
@@ -165,21 +169,48 @@ export const EmployeeProvider = ({ children }) => {
     if (deleteEmployeeId) {
       await deleteEmployee(deleteEmployeeId); 
       setDeleteOpen(false); 
+
+      const totalPages = Math.ceil(filteredEmployees.length / itemsPerPage);
+
+  
+    if (currentPage > totalPages && totalPages > 0) {
+      setCurrentPage(totalPages); 
+    } else if (currentPage === 1 && totalPages === 0) {
+      setCurrentPage(1); 
     }
-    // navigate('/Dashboard')
+    }
+    
   };
 
   const handleCancelDelete = () => {
     setDeleteOpen(false); 
   };
-  const handleImageUpload = (file) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      setFormData((prevData) => ({ ...prevData, avatar: reader.result })); // Store base64 image data
-    };
-    reader.readAsDataURL(file);
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0]; 
+  
+    if (file) {
+      const fileType = file.type.split('/')[1];
+      
+      if (fileType === 'jpeg' || fileType === 'png') {
+        const reader = new FileReader();
+        reader.onload = () => {
+          setFormData((prevData) => ({ ...prevData, avatar: reader.result })); 
+        };
+        reader.readAsDataURL(file);
+      } else {
+       
+        alert('Please upload a valid image (JPG or PNG).');
+      }
+    }
   };
   
+
+const handleClose = () =>{
+  setOpen(false)
+  setErrors('')
+}
+  
+ 
   return (
     <EmployeeContext.Provider
       value={{
@@ -219,7 +250,11 @@ export const EmployeeProvider = ({ children }) => {
         handleCancelDelete,
         errors,
         setErrors,
-        handleImageUpload
+        handleImageUpload,
+        uploadedImage,
+        setUploadedImage,
+        handleClose
+
 
 
       }}

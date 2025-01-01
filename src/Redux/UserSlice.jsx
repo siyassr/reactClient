@@ -54,7 +54,7 @@ const UserSlice = createSlice({
       .addCase(signupUser.fulfilled, (state, action) => {
         state.loading = false;
         state.userData = action.payload;
-        localStorage.setItem('userData', JSON.stringify(action.payload)); // Persist user data
+        localStorage.setItem('userData', JSON.stringify(action.payload)); 
       })
       .addCase(signupUser.rejected, (state, action) => {
         state.loading = false;

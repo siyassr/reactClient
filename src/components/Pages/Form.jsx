@@ -6,54 +6,54 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { EmployeeContext } from "../context";
 import CustomHooks from "../../Hooks/CustomHooks";
 
-function Form({ formData={}, setFormData, onSubmit, isEditing ,open,handleClose}) {
-  const [errors, setErrors] = useState({}); 
+function Form({ formData={}, setFormData, onSubmit, isEditing ,open,handleClose,handleImageUpload,errors,setErrors, uploadedImage,
+  setUploadedImage}) {
+
 
   
 
 
-const validateForm = () => {
-          const newErrors = {};
-          
-          // Validate each field
-          if (!formData.salutation) newErrors.salutation = 'Salutation is required';
-          if (!(formData.firstName || '').trim()) newErrors.firstName = 'First name is required';
-          if (!(formData.lastName || '').trim()) newErrors.lastName = 'Last name is required';
-          if (!(formData.username || '').trim()) newErrors.username = 'User name is required';
-          if (!(formData.password || '').trim()) newErrors.password = 'Password is required';
-          if (!(formData.email || '').trim()) newErrors.email = 'Email address is required';
-          else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Invalid email address';
-          if (!(formData.phone || '').trim()) newErrors.phone = 'Mobile number is required';
-          else if (!/^\d{10}$/.test(formData.phone)) newErrors.phone = 'Invalid mobile number';
-          if (!formData.dob) newErrors.dob = 'Date of birth is required';
-          if (!(formData.qualifications || '').trim()) newErrors.qualifications = 'Qualifications are required';
-          if (!(formData.address || '').trim()) newErrors.address = 'Address is required';
-          if (!formData.country) newErrors.country = 'Country is required';
-          if (!formData.state) newErrors.state = 'State is required';
-          if (!(formData.city || '').trim()) newErrors.city = 'City is required';
-          if (!(formData.pincode || '').trim()) newErrors.pincode = 'Pin/Zip is required';
-        
-          setErrors(newErrors);
-          return Object.keys(newErrors).length === 0;
-        };
+    const validateForm = () => {
+      const newErrors = {};
+  
+      if (!formData.salutation) newErrors.salutation = 'Salutation is required';
+      if (!(formData.firstName || '').trim()) newErrors.firstName = 'First name is required';
+      if (!(formData.lastName || '').trim()) newErrors.lastName = 'Last name is required';
+      if (!(formData.username || '').trim()) newErrors.username = 'User name is required';
+      if (!(formData.password || '').trim()) newErrors.password = 'Password is required';
+      if (!(formData.email || '').trim()) newErrors.email = 'Email address is required';
+      else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Invalid email address';
+      if (!(formData.phone || '').trim()) newErrors.phone = 'Mobile number is required';
+      else if (!/^\d{10}$/.test(formData.phone)) newErrors.phone = 'Invalid mobile number';
+      if (!formData.dob) newErrors.dob = 'Date of birth is required';
+      if (!(formData.qualifications || '').trim()) newErrors.qualifications = 'Qualifications are required';
+      if (!(formData.address || '').trim()) newErrors.address = 'Address is required';
+      if (!formData.country) newErrors.country = 'Country is required';
+      if (!formData.state) newErrors.state = 'State is required';
+      if (!(formData.city || '').trim()) newErrors.city = 'City is required';
+      if (!(formData.pincode || '').trim()) newErrors.pincode = 'Pin/Zip is required';
+  
+      setErrors(newErrors); // Set the validation errors
+      return Object.keys(newErrors).length === 0; // If no errors, return true
+    };
+  
+    const handleChange = (e) => {
+      const { name, value } = e.target;
+      setFormData((prevData) => ({ ...prevData, [name]: value }));
+    };
+  
+    const handleFormSubmit = (e) => {
+      e.preventDefault();
+  
+      // Validate form before submitting
+      if (validateForm()) {
+        onSubmit(); // Call the parent onSubmit function if validation is successful
+      }
+    };
+  
+    if (!open) return null;
 
-        const handleChange = (e) => {
-          const { name, value } = e.target;
-          setFormData((prevData) => ({ ...prevData, [name]: value }));
-        };
-      
-        const handleFormSubmit = (e) => {
-          e.preventDefault();
-      
-          // Validate form before submitting
-          if (validateForm()) {
-            onSubmit();
-            
-          }; 
-          }
-         
-      
-        if (!open) return null;
+        //  console.log(isEditing,"editing");
   return (
     <Modal  open={open} onClose={handleClose}>
        <Box
@@ -78,26 +78,46 @@ const validateForm = () => {
             {/* <i className="fa-solid fa-xmark"></i> */}
           </div>
         </div>
-
+      
+       
+        {isEditing ? (
+        <div >
+          <div className="flex items-center gap-3">
+            <div className="employee_photo align-items-center">
+            
+                <img src={formData.avatar} alt="Employee" />
+          
+            </div>
+            <label className="change" htmlFor="editUpload">
+              Change
+            </label>
+            <input
+              type="file"
+              id="editUpload"
+              name="photo"
+              accept="image/*"
+              onChange={handleImageUpload}
+            />
+          </div>
+        </div>
+      ) : (
         <div className="upload_img_sec" id="uploadImg">
-          <input type="file" name="photo" />
           <label className="upload_sec flex flex-col items-center p-4">
             <i className="fa-solid fa-upload"></i>
+            <input
+              type="file"
+              name="photo"
+              accept="image/*"
+              onChange={handleImageUpload}
+             
+            />
             <h4>Upload Image</h4>
             <h6>PNG, JPG files are allowed</h6>
           </label>
           <span className="error"></span>
         </div>
+      )}
 
-        <div id="editEmployee">
-          <div className="employee-form flex items-center gap-3">
-            <div className="employee_photo align-items-center">
-              <img src="/" alt="Employee" />
-            </div>
-            <label className="change">Change</label>
-            <input type="file" name="editPhoto" />
-          </div>
-        </div>
 
         <div className="row">
           <div className="col-lg-4 col-md-4 col-sm-4 pt-4">

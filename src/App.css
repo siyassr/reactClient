@@ -1154,15 +1154,15 @@ border: none;
     overflow-y: scroll;
     display: none;
 }
-.employee-form{
+/* .employee-form{
     display: none;
-}
-.upload_sec{
+} */
+/* .upload_sec{
     display: none;
-} 
-input#upload{
+}  */
+/* input#upload{
     display: none;
-}
+} */
 ::placeholder{
     color: #949DB9;
     font-size: 14px;

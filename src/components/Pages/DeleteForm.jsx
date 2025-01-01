@@ -10,7 +10,7 @@ function DeleteForm({open, onConfirm, onCancel}) {
 
  const navidateion = async()=>{
   await handleConfirmDelete(); 
-  navigate('/Dashboard'); 
+  navigate('/Employees'); 
  }
   
   return (

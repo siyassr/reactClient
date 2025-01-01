@@ -43,7 +43,7 @@ function Login() {
       .unwrap()
       .then((response) => {
         console.log('Login successful:', response);
-        navigate('/Dashboard');
+        navigate('/Employees');
       })
       .catch((err) => {
         console.log('Login error:', err);
