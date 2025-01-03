@@ -5,6 +5,7 @@ import { Modal, Box, Button, Typography } from '@mui/material';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { EmployeeContext } from "../context";
 import CustomHooks from "../../Hooks/CustomHooks";
+import { FaUpload } from "react-icons/fa";
 
 function Form({ formData={}, setFormData, onSubmit, isEditing ,open,handleClose,handleImageUpload,errors,setErrors, uploadedImage ,avatar,imgRef,
   setUploadedImage}) {
@@ -33,8 +34,8 @@ function Form({ formData={}, setFormData, onSubmit, isEditing ,open,handleClose,
       if (!(formData.city || '').trim()) newErrors.city = 'City is required';
       if (!(formData.pincode || '').trim()) newErrors.pincode = 'Pin/Zip is required';
   
-      setErrors(newErrors); // Set the validation errors
-      return Object.keys(newErrors).length === 0; // If no errors, return true
+      setErrors(newErrors);
+      return Object.keys(newErrors).length === 0;
     };
   
     const handleChange = (e) => {
@@ -45,15 +46,13 @@ function Form({ formData={}, setFormData, onSubmit, isEditing ,open,handleClose,
     const handleFormSubmit = (e) => {
       e.preventDefault();
   
-      // Validate form before submitting
       if (validateForm()) {
-        onSubmit(); // Call the parent onSubmit function if validation is successful
+        onSubmit(); 
       }
     };
   
     if (!open) return null;
 
-        //  console.log(isEditing,"editing");
   return (
     <Modal  open={open} onClose={handleClose}>
        <Box
@@ -68,14 +67,14 @@ function Form({ formData={}, setFormData, onSubmit, isEditing ,open,handleClose,
           borderRadius: 1,
           padding: '20px',
           width:"50%",
-          maxHeight: '95vh', // Restrict maximum height to ensure scrolling
+          maxHeight: '95vh',
           overflowY: 'auto',
         }}
       >
         <div className="header">
         <h2>{isEditing ? "Edit Employee" : "Add New Employee"}</h2>
           <div className="cross_icon">
-            {/* <i className="fa-solid fa-xmark"></i> */}
+           
           </div>
         </div>
       
@@ -87,7 +86,7 @@ function Form({ formData={}, setFormData, onSubmit, isEditing ,open,handleClose,
             
             <img
           ref={imgRef}
-          src={avatar || 'default-avatar.png'} // Show default avatar if no image is uploaded
+          src={formData.avatar || 'default-avatar.png'} 
           alt="Profile Avatar"
         />
           
@@ -105,20 +104,47 @@ function Form({ formData={}, setFormData, onSubmit, isEditing ,open,handleClose,
           </div>
         </div>
       ) : (
-        <div className="upload_img_sec" id="uploadImg">
-          <label className="upload_sec flex flex-col items-center p-4">
-            <i className="fa-solid fa-upload"></i>
-            <input
-             type="file"
-             accept="image/jpeg, image/png"
-             onChange={handleImageUpload}
-             
+        <>
+ {!formData.avatar ? (
+      <div className="upload_img_sec" id="uploadImg">
+        <label className="upload_sec flex flex-col items-center p-4">
+          <FaUpload/>
+          <input
+            type="file"
+            accept="image/jpeg, image/png"
+            onChange={handleImageUpload}
+            style={{display:"none"}}
+
+          />
+          <h4>Upload Image</h4>
+          <h6>PNG, JPG files are allowed</h6>
+        </label>
+        <span className="error"></span>
+      </div>
+    ) : (
+      <div className="display">
+        <div className="flex items-center gap-3">
+          <div className="employee_photo align-items-center">
+            <img
+              ref={imgRef}
+              src={formData.avatar || 'default-avatar.png'} 
+              alt="Profile Avatar"
             />
-            <h4>Upload Image</h4>
-            <h6>PNG, JPG files are allowed</h6>
+          </div>
+          <label className="change" htmlFor="editUpload">
+            Change
           </label>
-          <span className="error"></span>
+          <input
+            type="file"
+            id="editUpload"
+            name="photo"
+            accept="image/*"
+            onChange={handleImageUpload}
+          />
         </div>
+      </div>
+    )}
+       </>
       )}
 
 

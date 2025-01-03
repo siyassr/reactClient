@@ -122,6 +122,7 @@ export const EmployeeProvider = ({ children }) => {
     setOpen(true); 
   };
 
+
   const handleAddEmployee = () => {
     setIsEditing(false);
     setFormData({

@@ -5,7 +5,7 @@ import { useState } from "react";
 import axios from "axios";
 
 const useEmployees = () => {
-    const [employees, setEmployees] = useState([]);
+    const [employees, setEmployees] = useState([{}]);
     console.log(employees,"employees");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);

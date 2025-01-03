@@ -10,6 +10,8 @@ import { Link } from "react-router-dom";
 
 function Table({currentemployee,itemsPerPage,currentPage ,employees, onEdit,onDelete }) {
 
+  
+
 
   return (
     <>
