@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect,useRef } from "react";
 import axios from "axios";
 import CustomHooks from "../Hooks/CustomHooks"
 // import { useNavigate } from 'react-router-dom';
@@ -39,6 +39,7 @@ export const EmployeeProvider = ({ children }) => {
   const [itemsPerPage, setItemsPerPage] = useState(6);
   const [currentPage, setCurrentPage] = useState(1);
   const [errors, setErrors] = useState({}); 
+  const [avatar, setAvatar] = useState('');
 
   const { employees, getEmployees, createEmployee, updateEmployee,deleteEmployee } = CustomHooks();
 
@@ -185,8 +186,10 @@ export const EmployeeProvider = ({ children }) => {
   const handleCancelDelete = () => {
     setDeleteOpen(false); 
   };
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0]; 
+
+  const imgRef = useRef(null);
+   const handleImageUpload = (event) => {
+    const file = event.target.files[0];
   
     if (file) {
       const fileType = file.type.split('/')[1];
@@ -194,15 +197,64 @@ export const EmployeeProvider = ({ children }) => {
       if (fileType === 'jpeg' || fileType === 'png') {
         const reader = new FileReader();
         reader.onload = () => {
-          setFormData((prevData) => ({ ...prevData, avatar: reader.result })); 
+          setFormData((prevData) => ({ ...prevData, avatar: reader.result }));
+          
+        
+          if (imgRef.current) {
+            imgRef.current.src = reader.result; 
+          }
         };
         reader.readAsDataURL(file);
       } else {
-       
         alert('Please upload a valid image (JPG or PNG).');
       }
     }
   };
+
+
+  // const handleImageUpload = async (event) => {
+  //   const file = event.target.files[0];
+    
+  //   if (file) {
+    
+  //     const allowedTypes = /jpeg|jpg|png/;
+  //     const fileType = file.type.split('/')[1];
+  
+  //     if (allowedTypes.test(fileType)) {
+  //       const formData = new FormData();
+  //       formData.append('avatar', file);
+  
+  //       try {
+  //         const response = await axios.post('http://localhost:5000/upload-avatar', formData, {
+  //           headers: {
+  //             'Content-Type': 'multipart/form-data',
+  //           },
+  //         });
+  
+ 
+  //         const { file: uploadedFile } = response.data;
+  
+   
+  //         const imageUrl = `http://localhost:5000/${uploadedFile.path}`;
+  
+       
+  //         setAvatar(imageUrl);
+  
+  //         if (imgRef.current) {
+  //           imgRef.current.src = imageUrl;
+  //         }
+  //       } catch (error) {
+  //         console.error('Error uploading image:', error);
+  //         alert('Error uploading image, please try again.');
+  //       }
+  //     } else {
+      
+  //       alert('Please upload a valid image (JPG, JPEG, or PNG).');
+  //     }
+  //   }
+  // };
+  
+
   
 
 const handleClose = () =>{
@@ -253,7 +305,9 @@ const handleClose = () =>{
         handleImageUpload,
         uploadedImage,
         setUploadedImage,
-        handleClose
+        handleClose,
+        avatar,
+        imgRef
 
 
 

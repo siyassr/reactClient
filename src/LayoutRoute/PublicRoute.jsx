@@ -1,21 +1,16 @@
-
-
 import React, { useEffect, useState } from "react";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 function getCookie(name) {
   const value = document.cookie;
-  console.log("Document Cookies:", document.cookie);
-
   const parts = value.split(`${name}=`);
   if (parts.length === 2) return parts.pop().split(";").shift();
   return null;
 }
 
-const ProtectedRoute = ({ children }) => {
+const PublicRoute = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
   const accesstoken = getCookie("accesstoken");
-  const location = useLocation(); // Get the current route
 
   useEffect(() => {
     const verifyToken = async () => {
@@ -31,13 +26,7 @@ const ProtectedRoute = ({ children }) => {
 
           if (response.ok) {
             const data = await response.json();
-            console.log("Token verification response:", data);
-
-            if (data.valid) {
-              setIsAuthenticated(true);
-            } else {
-              setIsAuthenticated(false);
-            }
+            setIsAuthenticated(data.valid);
           } else {
             setIsAuthenticated(false);
           }
@@ -57,12 +46,11 @@ const ProtectedRoute = ({ children }) => {
     return <div>Loading...</div>; 
   }
 
-  if (!isAuthenticated) {
-    return <Navigate to="/" state={{ from: location }} />;
+  if (isAuthenticated) {
+    return <Navigate to="/Employees" />;
   }
 
   return children;
 };
 
-export default ProtectedRoute;
-
+export default PublicRoute;

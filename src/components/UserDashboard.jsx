@@ -20,8 +20,10 @@ function UserDashboard() {
 
   const {
     open,
+    avatar,
     errors,
     setOpen,
+    imgRef,
     setErrors,
     formData,
     isEditing,
@@ -82,7 +84,7 @@ function UserDashboard() {
 
           <Table  onEdit={handleEdit} currentemployee={currentemployee} isEditing={isEditing} onDelete={handleDeleteEmployee} />
 
-          <Form formData={formData} setFormData={setFormData} onSubmit={handleSubmit} isEditing={isEditing} open={open} handleClose={handleClose}  handleImageUpload={handleImageUpload} uploadedImage={uploadedImage} errors={errors} setErrors={setErrors} />
+          <Form formData={formData} setFormData={setFormData} onSubmit={handleSubmit} isEditing={isEditing} open={open} handleClose={handleClose}  handleImageUpload={handleImageUpload} uploadedImage={uploadedImage} errors={errors} setErrors={setErrors} avatar={avatar} imgRef={imgRef}/>
 
           <DeleteForm open={deleteOpen} onConfirm={handleConfirmDelete}  onCancel={handleCancelDelete} />
        

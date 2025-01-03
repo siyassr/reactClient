@@ -46,11 +46,11 @@ apiClient.interceptors.response.use(
         );
 
         const newAccessToken = response.data.accesstoken;
-        console.log("New Access Token:", newAccessToken);
+        // console.log("New Access Token:", newAccessToken);
 
         const decoded = jwtDecode(newAccessToken);
         const senderId = decoded.user_id;
-        console.log("Sender ID:", senderId);
+        // console.log("Sender ID:", senderId);
 
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 

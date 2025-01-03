@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { EmployeeContext } from "../context";
 import CustomHooks from "../../Hooks/CustomHooks";
 
-function Form({ formData={}, setFormData, onSubmit, isEditing ,open,handleClose,handleImageUpload,errors,setErrors, uploadedImage,
+function Form({ formData={}, setFormData, onSubmit, isEditing ,open,handleClose,handleImageUpload,errors,setErrors, uploadedImage ,avatar,imgRef,
   setUploadedImage}) {
 
 
@@ -85,7 +85,11 @@ function Form({ formData={}, setFormData, onSubmit, isEditing ,open,handleClose,
           <div className="flex items-center gap-3">
             <div className="employee_photo align-items-center">
             
-                <img src={formData.avatar} alt="Employee" />
+            <img
+          ref={imgRef}
+          src={avatar || 'default-avatar.png'} // Show default avatar if no image is uploaded
+          alt="Profile Avatar"
+        />
           
             </div>
             <label className="change" htmlFor="editUpload">
@@ -105,10 +109,9 @@ function Form({ formData={}, setFormData, onSubmit, isEditing ,open,handleClose,
           <label className="upload_sec flex flex-col items-center p-4">
             <i className="fa-solid fa-upload"></i>
             <input
-              type="file"
-              name="photo"
-              accept="image/*"
-              onChange={handleImageUpload}
+             type="file"
+             accept="image/jpeg, image/png"
+             onChange={handleImageUpload}
              
             />
             <h4>Upload Image</h4>

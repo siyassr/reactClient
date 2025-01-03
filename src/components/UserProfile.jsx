@@ -1,11 +1,12 @@
 import React, { useContext } from 'react'
 import Sidebar from './Sidebar'
 import Profile from './Profile'
-import { useParams } from 'react-router-dom'
+import { Navigate, useParams } from 'react-router-dom'
 import { EmployeeContext } from './context';
 
 function UserProfile() {
   const { id } = useParams();
+
   const {
       open,
       setOpen,
@@ -23,7 +24,16 @@ function UserProfile() {
       isEditing,
       handleCancelDelete,
       
-    } = useContext(EmployeeContext);  
+    } = useContext(EmployeeContext); 
+   
+
+    const isValidId = /^[a-f\d]{24}$/i.test(id);
+    console.log(isValidId,"isValidId");
+
+  if (!id || !isValidId) {
+    return <Navigate to="/not-found" />;
+  }
+  
   
   return (
     <div className='containers grid grid-cols-[1fr_5fr] h-screen'>

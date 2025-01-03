@@ -5,6 +5,8 @@ import ProtectedRoute from './ProtectRoute';
 import Dashboard from "../components/Dashboard" 
 import UserProfile from '../components/UserProfile';
 import Myprofile from '../components/Myprofile';
+import PublicRoute from './PublicRoute';
+import NotFound from '../components/Notfound';
 
 
 function OutputRoutes() {
@@ -28,7 +30,11 @@ function OutputRoutes() {
       <Routes>
         <Route
           path="/"
-          element={<Login handleLoginSuccess={handleLoginSuccess} />}
+          element={
+            <PublicRoute>
+          <Login handleLoginSuccess={handleLoginSuccess} />
+          </PublicRoute>
+        }
         />
         <Route
           path="/Employees"
@@ -54,6 +60,7 @@ function OutputRoutes() {
             </ProtectedRoute>
           }
         />
+         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );
