@@ -8,9 +8,7 @@ import { EmployeeContext } from "./context";
 import Form from "./Pages/Form";
 import { Link } from "react-router-dom";
 
-function Table({currentemployee,itemsPerPage,currentPage ,employees, onEdit,onDelete }) {
-
-  
+function Table({currentemployee,itemsPerPage,currentPage, onEdit,onDelete }) {
 
 
   return (

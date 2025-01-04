@@ -1,15 +1,16 @@
 
 
 
-import { useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import axios from "axios";
+import { EmployeeContext } from "../components/context";
 
 const useEmployees = () => {
-    const [employees, setEmployees] = useState([{}]);
+    const [employees, setEmployees] = useState([]);
     console.log(employees,"employees");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-
+    // const {setAllemployee} = useContext(EmployeeContext)
 
     const getEmployees = async () => {
         setLoading(true);
@@ -17,6 +18,7 @@ const useEmployees = () => {
         try {
             const response = await axios.get("http://localhost:5000/Employees");
             setEmployees(response.data);
+            // setAllemployee(response.data)
         } catch (err) {
             setError(err.response?.data?.message || "Failed to fetch employees");
         } finally {

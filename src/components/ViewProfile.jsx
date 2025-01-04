@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import Footer from './Footer';
 import Header from './Header';
 import Img3 from "../assets/images/Background Image.png";
+import Img2 from "../assets/images/Elipse 5.png"
 
 function ViewProfile() {
   const userData = useSelector((state) => state.user.userData); 
@@ -23,7 +24,7 @@ function ViewProfile() {
          <img src={Img3} className="card-img-top" alt="..." />
          <div className="viewer">
            <div className="viewer_photo">
-             <img id="img" src="/" alt="" />
+             <img id="img" src={Img2} alt="" />
            </div>
            <h4>{username}</h4>
            <h5 id="email">{email}</h5>

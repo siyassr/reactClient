@@ -29,11 +29,11 @@ function Profile({ employeeId }) {
 
   useEffect(() => {
     if (employeeId) {
-      getEmployee(employeeId); // Fetch employee details on mount
+      getEmployee(employeeId); 
     }
   }, [employeeId]);
 
-  const employee = Array.isArray(employees) ? employees[0] : employees; // Extract the employee data
+  const employee = Array.isArray(employees) ? employees[0] : employees; 
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
@@ -52,6 +52,13 @@ function Profile({ employeeId }) {
     }
     return age;
   };
+
+  const handleClickEdit = () => {
+    handleEdit(employee); 
+    setOpen(true);
+
+  };
+  
 
   return (
     <>
@@ -130,10 +137,7 @@ function Profile({ employeeId }) {
                 </button>
                 <button
                   className="editbtn"
-                  onClick={() => {
-                    handleEdit(employee);
-                    setOpen(true);
-                  }}
+                 onClick={handleClickEdit}
                 >
                   Edit Details
                 </button>
@@ -162,3 +166,6 @@ function Profile({ employeeId }) {
 }
 
 export default Profile;
+
+
+

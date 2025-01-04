@@ -40,12 +40,17 @@ export const EmployeeProvider = ({ children }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [errors, setErrors] = useState({}); 
   const [avatar, setAvatar] = useState('');
+ 
+  
 
   const { employees, getEmployees, createEmployee, updateEmployee,deleteEmployee } = CustomHooks();
 
   useEffect(() => {
     getEmployees();
   }, []);
+
+  
+
 
   const filteredEmployees = employees.filter((employee) =>
     `${employee.firstName} ${employee.lastName} ${employee.email} ${employee.phone} ${employee.username}`
@@ -308,7 +313,8 @@ const handleClose = () =>{
         setUploadedImage,
         handleClose,
         avatar,
-        imgRef
+        imgRef,
+      
 
 
 
