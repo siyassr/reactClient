@@ -154,6 +154,16 @@ export const EmployeeProvider = ({ children }) => {
     if (!(formData.pincode || '').trim()) newErrors.pincode = 'Pin/Zip is required';
     if (!formData.gender) newErrors.gender = 'Gender is required';
 
+        if (formData.avatar) {
+      const file = formData.avatar;
+      const validTypes = ['image/jpeg', 'image/jpg'];
+      if (!validTypes.includes(file.type)) {
+          newErrors.avatar = 'image must be a JPG or JPEG image';
+      }
+  } else {
+      newErrors.avatar = 'image is required';
+  }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
