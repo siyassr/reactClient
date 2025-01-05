@@ -121,7 +121,7 @@ function Form({ formData={}, setFormData, onSubmit, isEditing ,open,handleClose,
           <h4>Upload Image</h4>
           <h6>PNG, JPG files are allowed</h6>
         </label>
-        <span className="error"></span>
+         {errors.avatar && <span className="text-danger">{errors.avatar}</span>}
       </div>
     ) : (
       <div className="display">
