@@ -1,18 +1,30 @@
 import React, { createContext, useState, useEffect,useRef } from "react";
 import axios from "axios";
 import CustomHooks from "../Hooks/CustomHooks"
+import { useNavigate } from "react-router-dom";
 // import { useNavigate } from 'react-router-dom';
 
 
 export const EmployeeContext = createContext();
 
 export const EmployeeProvider = ({ children }) => {
-  //  const navigate = useNavigate();
+
 
   const [open, setOpen] = useState(false); 
   const [deleteOpen, setDeleteOpen] = useState(false);
-
   const [deleteEmployeeId, setDeleteEmployeeId] = useState(null);
+  const [uploadedImage, setUploadedImage] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingId, setEditingId] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [itemsPerPage, setItemsPerPage] = useState(6);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [errors, setErrors] = useState({}); 
+  const [avatar, setAvatar] = useState('');
+
+
+
+  const {employees, getEmployees, createEmployee, updateEmployee,deleteEmployee,setEmployees } = CustomHooks();
   const [formData, setFormData] = useState({
     salutation: "",
     firstName: "",
@@ -32,21 +44,14 @@ export const EmployeeProvider = ({ children }) => {
     avatar:"",
   });
 
-  const [uploadedImage, setUploadedImage] = useState("");
-  const [isEditing, setIsEditing] = useState(false);
-  const [editingId, setEditingId] = useState(null);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [itemsPerPage, setItemsPerPage] = useState(6);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [errors, setErrors] = useState({}); 
-  const [avatar, setAvatar] = useState('');
+
  
   
 
-  const { employees, getEmployees, createEmployee, updateEmployee,deleteEmployee } = CustomHooks();
+ 
 
   useEffect(() => {
-    getEmployees();
+    getEmployees()
   }, []);
 
   
@@ -127,6 +132,33 @@ export const EmployeeProvider = ({ children }) => {
     setOpen(true); 
   };
 
+  
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!formData.salutation) newErrors.salutation = 'Salutation is required';
+    if (!(formData.firstName || '').trim()) newErrors.firstName = 'First name is required';
+    if (!(formData.lastName || '').trim()) newErrors.lastName = 'Last name is required';
+    if (!(formData.username || '').trim()) newErrors.username = 'User name is required';
+    if (!(formData.password || '').trim()) newErrors.password = 'Password is required';
+    if (!(formData.email || '').trim()) newErrors.email = 'Email address is required';
+    else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Invalid email address';
+    if (!(formData.phone || '').trim()) newErrors.phone = 'Mobile number is required';
+    else if (!/^\d{10}$/.test(formData.phone)) newErrors.phone = 'Invalid mobile number';
+    if (!formData.dob) newErrors.dob = 'Date of birth is required';
+    if (!(formData.qualifications || '').trim()) newErrors.qualifications = 'Qualifications are required';
+    if (!(formData.address || '').trim()) newErrors.address = 'Address is required';
+    if (!formData.country) newErrors.country = 'Country is required';
+    if (!formData.state) newErrors.state = 'State is required';
+    if (!(formData.city || '').trim()) newErrors.city = 'City is required';
+    if (!(formData.pincode || '').trim()) newErrors.pincode = 'Pin/Zip is required';
+    if (!formData.gender) newErrors.gender = 'Gender is required';
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+  
+
 
   const handleAddEmployee = () => {
     setIsEditing(false);
@@ -152,14 +184,32 @@ export const EmployeeProvider = ({ children }) => {
   };
 
   const handleSubmit = async () => {
-    if (isEditing) {
-      await updateEmployee(editingId, formData); 
-    } else {
-      await createEmployee(formData);
+    const isValid = validateForm();
+    if (!isValid) {
+        console.error("Form validation failed");
+        return;
     }
-    setOpen(false);
-     
-  };
+
+    try {
+        if (isEditing) {
+            await updateEmployee(editingId, formData);
+
+            // Update the employee in the global state
+            const updatedEmployees = employees.map((emp) =>
+                emp._id === editingId ? { ...emp, ...formData } : emp
+            );
+            setEmployees(updatedEmployees); 
+
+            console.log("Employee updated successfully");
+        } else {
+            await createEmployee(formData);
+            console.log("Employee created successfully");
+        }
+        setOpen(false); 
+    } catch (error) {
+        console.error("Error while submitting the form:", error);
+    }
+};
 
 
   
@@ -314,6 +364,7 @@ const handleClose = () =>{
         handleClose,
         avatar,
         imgRef,
+
       
 
 

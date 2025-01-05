@@ -7,6 +7,7 @@ import UserProfile from '../components/UserProfile';
 import Myprofile from '../components/Myprofile';
 import PublicRoute from './PublicRoute';
 import NotFound from '../components/Notfound';
+import Sidebar from '../components/Sidebar';
 
 
 function OutputRoutes() {
@@ -27,6 +28,7 @@ function OutputRoutes() {
 
   return (
     <Router>
+   
       <Routes>
         <Route
           path="/"

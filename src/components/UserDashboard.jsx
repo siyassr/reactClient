@@ -67,7 +67,7 @@ function UserDashboard() {
                 value={itemsPerPage}
                 onChange={handleItemsPerPageChange}
               >
-                {[4, 5, 6, 7, 8, 9, 10].map((option) => (
+                {[1,2,3,4, 5, 6, 7, 8, 9, 10].map((option) => (
                   <option key={option} value={option}>
                     {option}
                   </option>

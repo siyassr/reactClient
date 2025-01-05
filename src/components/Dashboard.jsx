@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom'
 import UserDashboard from './UserDashboard'
 import Profile from "./Profile"
 import "../App.css"
+import Myprofile from './Myprofile'
 
 function Slidebar() {
   const location = useLocation()
@@ -12,6 +13,7 @@ function Slidebar() {
         <Sidebar/>
         
       <UserDashboard /> 
+     
     </div>
   )
 }
