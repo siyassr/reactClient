@@ -85,11 +85,11 @@ function Form({ formData={}, setFormData, onSubmit, isEditing ,open,handleClose,
           <h4>Upload Image</h4>
           <h6>PNG, JPG files are allowed</h6>
         </label>
-<<<<<<< HEAD
+
         {/* {errors.avatar && <span className="text-danger">{errors.avatar}</span>} */}
-=======
+
          {errors.avatar && <span className="text-danger">{errors.avatar}</span>}
->>>>>>> 235330c3dd7c988872d780402e40680767be8623
+
       </div>
     ) : (
       <div className="display">
