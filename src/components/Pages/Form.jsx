@@ -88,7 +88,7 @@ function Form({ formData={}, setFormData, onSubmit, isEditing ,open,handleClose,
 
         {/* {errors.avatar && <span className="text-danger">{errors.avatar}</span>} */}
 
-         {errors.avatar && <span className="text-danger">{errors.avatar}</span>}
+{/*          {errors.avatar && <span className="text-danger">{errors.avatar}</span>} */}
 
       </div>
     ) : (
