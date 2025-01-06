@@ -164,6 +164,16 @@ export const EmployeeProvider = ({ children }) => {
   // }
   // if (!formData.avatar) newErrors.avatar = 'image is required';
 
+        if (formData.avatar) {
+      const file = formData.avatar;
+      const validTypes = ['image/jpeg', 'image/jpg'];
+      if (!validTypes.includes(file.type)) {
+          newErrors.avatar = 'image must be a JPG or JPEG image';
+      }
+  } else {
+      newErrors.avatar = 'image is required';
+  }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
