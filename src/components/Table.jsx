@@ -6,6 +6,7 @@ import CustomHooks from "../Hooks/CustomHooks";
 import { EmployeeContext } from "./context";
 import Form from "./Pages/Form";
 import { Link, useNavigate } from "react-router-dom";
+import img4 from "../assets/images/1053244.png"
 
 function Table( { currentemployee, itemsPerPage, currentPage, onEdit, onDelete } ) {
   // const { currentemployee, itemsPerPage, currentPage, handleEdit, onDelete } =
@@ -40,9 +41,8 @@ function Table( { currentemployee, itemsPerPage, currentPage, onEdit, onDelete }
                   <td className="">
                     <div className="flex items-center">
                       <img
-                        src={employee.avatar}
-                        alt={`${employee.firstName} ${employee.lastName}`}
-                        // className="w-8 h-8 rounded-full"
+                       src={employee.avatar || img4} 
+                       
                       />
                       <span>
                         {employee.firstName} {employee.lastName}

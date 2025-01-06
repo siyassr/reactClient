@@ -426,6 +426,7 @@ import Img3 from "../assets/images/Background Image.png";
 import Footer from "./Footer";
 import DeleteForm from "./Pages/DeleteForm";
 import Header from "./Header"
+import img4 from '../assets/images/1053244.png'
 
 function Profile({ employeeId }) {
   const { getEmployee, loading, error, employees } = CustomHooks();
@@ -502,8 +503,8 @@ function Profile({ employeeId }) {
               <div className="viewer_photo">
                 <img
                   id="img"
-                  src={employee.avatar || "default-avatar.png"}
-                  // alt={employee.firstName}'s Avatar}
+                  src={employee.avatar || img4}
+                 
                 />
               </div>
               <h4>{employee.firstName} {employee.lastName}</h4>

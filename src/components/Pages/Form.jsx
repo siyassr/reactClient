@@ -7,53 +7,17 @@ import { EmployeeContext } from "../context";
 import CustomHooks from "../../Hooks/CustomHooks";
 import { FaUpload } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import img4 from "../../assets/images/1053244.png"
 
 function Form({ formData={}, setFormData, onSubmit, isEditing ,open,handleClose,handleImageUpload,errors,setErrors, uploadedImage ,avatar,imgRef,
   setUploadedImage}) {
 
-  //  const navigate = useNavigate()
-  
-
-
-  //   const validateForm = () => {
-  //     const newErrors = {};
-  
-  //     if (!formData.salutation) newErrors.salutation = 'Salutation is required';
-  //     if (!(formData.firstName || '').trim()) newErrors.firstName = 'First name is required';
-  //     if (!(formData.lastName || '').trim()) newErrors.lastName = 'Last name is required';
-  //     if (!(formData.username || '').trim()) newErrors.username = 'User name is required';
-  //     if (!(formData.password || '').trim()) newErrors.password = 'Password is required';
-  //     if (!(formData.email || '').trim()) newErrors.email = 'Email address is required';
-  //     else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Invalid email address';
-  //     if (!(formData.phone || '').trim()) newErrors.phone = 'Mobile number is required';
-  //     else if (!/^\d{10}$/.test(formData.phone)) newErrors.phone = 'Invalid mobile number';
-  //     if (!formData.dob) newErrors.dob = 'Date of birth is required';
-  //     if (!(formData.qualifications || '').trim()) newErrors.qualifications = 'Qualifications are required';
-  //     if (!(formData.address || '').trim()) newErrors.address = 'Address is required';
-  //     if (!formData.country) newErrors.country = 'Country is required';
-  //     if (!formData.state) newErrors.state = 'State is required';
-  //     if (!(formData.city || '').trim()) newErrors.city = 'City is required';
-  //     if (!(formData.pincode || '').trim()) newErrors.pincode = 'Pin/Zip is required';
-  
-  //     setErrors(newErrors);
-  //     return Object.keys(newErrors).length === 0;
-  //   };
   
     const handleChange = (e) => {
       const { name, value } = e.target;
       setFormData((prevData) => ({ ...prevData, [name]: value }));
     };
-  
-  //   const handleFormSubmit = (e) => {
-  //     e.preventDefault();
-  
-  //     if (validateForm()) {
-  //       onSubmit(); 
-  //     }
-      
-  //   };
-  
-  //   if (!open) return null;
+
 
   return (
     <Modal  open={open} onClose={handleClose}>
@@ -88,7 +52,7 @@ function Form({ formData={}, setFormData, onSubmit, isEditing ,open,handleClose,
             
             <img
           ref={imgRef}
-          src={formData.avatar || 'default-avatar.png'} 
+          src={formData.avatar || img4} 
           alt="Profile Avatar"
         />
           
@@ -121,7 +85,7 @@ function Form({ formData={}, setFormData, onSubmit, isEditing ,open,handleClose,
           <h4>Upload Image</h4>
           <h6>PNG, JPG files are allowed</h6>
         </label>
-        <span className="error"></span>
+        {/* {errors.avatar && <span className="text-danger">{errors.avatar}</span>} */}
       </div>
     ) : (
       <div className="display">
@@ -129,8 +93,8 @@ function Form({ formData={}, setFormData, onSubmit, isEditing ,open,handleClose,
           <div className="employee_photo align-items-center">
             <img
               ref={imgRef}
-              src={formData.avatar || 'default-avatar.png'} 
-              alt="Profile Avatar"
+              src={formData.avatar || img4} 
+         
             />
           </div>
           <label className="change" htmlFor="editUpload">
@@ -290,7 +254,7 @@ function Form({ formData={}, setFormData, onSubmit, isEditing ,open,handleClose,
                 <label className="form-check-label">Female</label>
               </div>
             </div>
-            {errors.gender && <span className="text-danger">{errors.gender}</span>}
+            {/* {errors.gender && <span className="text-danger">{errors.gender}</span>} */}
           </div>
         </div>
 

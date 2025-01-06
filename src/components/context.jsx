@@ -153,6 +153,16 @@ export const EmployeeProvider = ({ children }) => {
     if (!(formData.city || '').trim()) newErrors.city = 'City is required';
     if (!(formData.pincode || '').trim()) newErrors.pincode = 'Pin/Zip is required';
     if (!formData.gender) newErrors.gender = 'Gender is required';
+  //   if (formData.avatar) {
+  //     const file = formData.avatar;
+  //     const validTypes = ['image/jpeg', 'image/jpg'];
+  //     if (!validTypes.includes(file.type)) {
+  //         newErrors.avatar = 'image must be a JPG or JPEG image';
+  //     }
+  // } else {
+  //     newErrors.avatar = 'image is required';
+  // }
+  // if (!formData.avatar) newErrors.avatar = 'image is required';
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -185,6 +195,7 @@ export const EmployeeProvider = ({ children }) => {
 
   const handleSubmit = async () => {
     const isValid = validateForm();
+    console.log(isValid,"isValid");
     if (!isValid) {
         console.error("Form validation failed");
         return;
@@ -194,7 +205,6 @@ export const EmployeeProvider = ({ children }) => {
         if (isEditing) {
             await updateEmployee(editingId, formData);
 
-            // Update the employee in the global state
             const updatedEmployees = employees.map((emp) =>
                 emp._id === editingId ? { ...emp, ...formData } : emp
             );
@@ -244,28 +254,65 @@ export const EmployeeProvider = ({ children }) => {
   };
 
   const imgRef = useRef(null);
-   const handleImageUpload = (event) => {
-    const file = event.target.files[0];
+  //  const handleImageUpload = (event) => {
+  //   const file = event.target.files[0];
   
-    if (file) {
-      const fileType = file.type.split('/')[1];
+  //   if (file) {
+  //     const fileType = file.type.split('/')[1];
       
-      if (fileType === 'jpeg' || fileType === 'png') {
-        const reader = new FileReader();
-        reader.onload = () => {
-          setFormData((prevData) => ({ ...prevData, avatar: reader.result }));
+  //     if (fileType === 'jpeg' || fileType === 'png') {
+  //       const reader = new FileReader();
+  //       reader.onload = () => {
+  //         setFormData((prevData) => ({ ...prevData, avatar: reader.result }));
           
         
-          if (imgRef.current) {
-            imgRef.current.src = reader.result; 
-          }
-        };
-        reader.readAsDataURL(file);
-      } else {
-        alert('Please upload a valid image (JPG or PNG).');
-      }
+  //         if (imgRef.current) {
+  //           imgRef.current.src = reader.result; 
+  //         }
+  //       };
+  //       reader.readAsDataURL(file);
+  //     } else {
+  //       alert('Please upload a valid image (JPG or PNG).');
+  //     }
+  //   }
+  // };
+
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+
+    if (file) {
+        const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+        const maxSize = 2 * 1024 * 1024; 
+        const newErrors = {};
+
+       
+        if (!validTypes.includes(file.type)) {
+            newErrors.avatar = 'Please upload a valid image (JPG or PNG).';
+        }
+
+       
+        if (file.size > maxSize) {
+            newErrors.avatar = 'File size should not exceed 2MB.';
+        }
+
+        if (Object.keys(newErrors).length === 0) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                setFormData((prevData) => ({ ...prevData, avatar: reader.result }));
+                if (imgRef.current) {
+                    imgRef.current.src = reader.result; 
+                }
+            };
+            reader.readAsDataURL(file);
+            setErrors((prevErrors) => ({ ...prevErrors, avatar: undefined })); 
+        } else {
+            setErrors((prevErrors) => ({ ...prevErrors, ...newErrors }));
+        }
+    } else {
+        setErrors((prevErrors) => ({ ...prevErrors, avatar: 'Image is required.' }));
     }
-  };
+};
+
 
 
   // const handleImageUpload = async (event) => {
